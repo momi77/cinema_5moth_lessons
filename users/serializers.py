@@ -1,18 +1,18 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
+from users.models import CustomUser
 
 class UserAuthSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
+    email = serializers.CharField(max_length=150)
     password = serializers.CharField()
 
 class UserCreateSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
+    email = serializers.CharField(max_length=150)
     password = serializers.CharField()
 
-    def validate_username(self, username):
+    def validate_email(self, email):
         try:
-            User.objects.get(username=username)
-        except User.DoesNotExist:
-            return username
-        raise ValidationError('Username already exists!')       
+            CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            return email
+        raise ValidationError('Email already exists!')       

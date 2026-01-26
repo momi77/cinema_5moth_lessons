@@ -1,0 +1,20 @@
+version: '3'
+services:
+  cinema_api:
+    build:
+      context: .
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    ports: 
+      - "8001:8000"
+    depends_on:
+      - cinema_data
+  cinema_data:
+    image: "postgres:14"
+    environment:
+       POSTGRES_DB: cinema_api_db
+       POSTGRES_USER: new_user
+       POSTGRES_PASSWORD: 1234
+    volumes:
+      - 'cinema_db:/var/lib/postgresql/data/'
+volumes:
+  cinema_db:
